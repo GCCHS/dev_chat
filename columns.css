@@ -15,4 +15,5 @@
 	min-height: 84%;
 	max-height: 84%;
 	background-color: #fff8f0;
+	overflow: scroll;
 }
