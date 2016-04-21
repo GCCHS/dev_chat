@@ -14,7 +14,8 @@ jQuery($modalSubmit).on('click', function(event){
 	jQuery('#submit-message').on('click', sendMessage)
 
 	var client = new Faye.Client('http://' + ip + ':8000/');
-	
+	client.publish('/activity', {username: username})
+
 	var sendMessage = function(){
 		var inputMessage = inputBox.value;
 		client.publish('/messages', {
@@ -36,4 +37,10 @@ jQuery($modalSubmit).on('click', function(event){
 	  chatWindow.innerHTML = appendedMessage;
 	  console.log('Got a message: ' + message.text + '\n\tFrom: ' + username);
 	});
+
+	client.subscribe('/activity', function(payload) {
+		var currentMessages = chatWindow.innerHTML;
+	  var appendedMessage = payload.username + " has joined";
+	  chatWindow.innerHTML = appendedMessage;
+	})
 })
